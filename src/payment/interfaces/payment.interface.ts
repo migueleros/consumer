@@ -1,3 +1,8 @@
+import { paymentMethods } from "../enum/payment.enum";
+import { IProduct } from "./product.interface";
+
 export interface IPayment {
-    cpf: string;
+    idClient: number;
+    paymentMethod: paymentMethods;
+    product: IProduct[];
 }
