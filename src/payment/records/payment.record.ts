@@ -1,5 +1,8 @@
+import { Column, Entity } from "typeorm";
 import { IPayment } from "../interfaces/payment.interface";
 
+@Entity()
 export class Payment implements IPayment {
-    idClient: number;
+    @Column()
+    cpf: string;
 }
