@@ -48,9 +48,10 @@ export class PaymentConsumer implements OnApplicationShutdown, OnModuleInit {
         await consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
                 const value = message.value.toString();
+                const payload = JSON.parse(value);
 
                 this.logger.log(`[CONSUMER] Consumed antifraud result`);
-                this.paymentProducer.produceTest(value);
+                this.paymentProducer.produceTest(payload.isValid);
             }
         });
 
