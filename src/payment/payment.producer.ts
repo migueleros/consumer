@@ -11,10 +11,10 @@ export class PaymentProducer implements OnModuleInit, OnApplicationShutdown {
 
     private readonly producer: Producer = this.kafka.producer();
 
-    async produceAntifraud(cpf: string): Promise<void> {
+    async produceAntifraud(cpf: number): Promise<void> {
         await this.producer.send({
             topic: "antifraud-check",
-            messages: [{value: cpf}]
+            messages: [{value: String(cpf)}]
         });
 
         this.logger.log(`[PRODUCER] Produced antifraud check for ${cpf} with success`);
