@@ -50,11 +50,30 @@ export class PaymentConsumer implements OnApplicationShutdown, OnModuleInit {
                 const value = message.value.toString();
 
                 this.logger.log(`[CONSUMER] Consumed antifraud result`);
+                this.paymentProducer.produceTest(value);
             }
         });
 
         this.consumers.push(consumer);
     }
+
+    async consumeTest() {
+        const consumer = this.kafka.consumer({ groupId: "payment-test" });
+        await consumer.connect();
+        await consumer.subscribe({ topic: "antifraud-result" });
+
+        await consumer.run({
+            eachMessage: async ({ topic, partition, message }) => {
+                const value = message.value.toString();
+
+                this.logger.log(`[CONSUMER] Consumed payment test result`);
+                this.paymentProducer.produceResult(value);
+            }
+        });
+
+        this.consumers.push(consumer);
+    }
+
 
     async onApplicationShutdown() {
         for (const consumer of this.consumers) {

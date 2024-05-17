@@ -20,6 +20,24 @@ export class PaymentProducer implements OnModuleInit, OnApplicationShutdown {
         this.logger.log(`[PRODUCER] Produced antifraud check for ${cpf} with success`);
     }
 
+    async produceTest(antifraud: string): Promise<void> {
+        await this.producer.send({
+            topic: "payment-test",
+            messages: [{value: antifraud}]
+        });
+
+        this.logger.log(`[PRODUCER] Sent antifraud result to test topic`);
+    }
+
+    async produceResult(result: string): Promise<void> {
+        await this.producer.send({
+            topic: "payment-result",
+            messages: [{value: result}]
+        });
+
+        this.logger.log(`[PRODUCER] Sent payment result to results topic`);
+    }
+
     async onModuleInit() {
         await this.producer.connect();
     }
