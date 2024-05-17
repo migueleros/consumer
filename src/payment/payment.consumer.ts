@@ -32,8 +32,8 @@ export class PaymentConsumer implements OnApplicationShutdown, OnModuleInit {
                 const value = message.value.toString();
                 const payload: Payment = JSON.parse(value);
                 
-                this.logger.log(`[CONSUMER] Consumed payment for cpf ${payload.cpf}`);
-                await this.paymentProducer.produceAntifraud(payload.cpf);
+                this.logger.log(`[CONSUMER] Consumed payment for cpf ${payload.idClient}`);
+                await this.paymentProducer.produceAntifraud(payload.idClient);
             }
         });
 
